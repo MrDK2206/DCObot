@@ -1,11 +1,6 @@
-sentence-transformers==2.2.2
-langchain
 flask
-pypdf
 python-dotenv
+pypdf
 pinecone[grpc]
-langchain-pinecone
-langchain_community
-langchain_openai
-langchain_experimental
--e .
+langchain>=0.1.0,<1.0.0  # core langchain package
+sentence-transformers==2.2.2  # optional if you really need embeddings

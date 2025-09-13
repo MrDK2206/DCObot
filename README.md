@@ -1,132 +1,112 @@
-# End-to-end-Medical-Chatbot-Generative-AI
+Medical Chatbot with Groq API
 
+A medical question-answering chatbot that uses Groq's language models for response generation and Pinecone for vector storage and retrieval. This application processes medical PDF documents to create a knowledge base and provides conversational interface for medical queries.
 
-# How to run?
-### STEPS:
+Features
 
-Clone the repository
+Document Processing: Load and chunk PDF documents for efficient retrieval
 
-```bash
-Project repo: https://github.com/
-```
-### STEP 01- Create a conda environment after opening the repository
+Semantic Search: Uses HuggingFace embeddings and Pinecone vector storage
 
-```bash
+Groq Integration: Leverages multiple Groq language models for response generation
+
+Fallback System: Intelligent fallback responses for common medical questions
+
+Web Interface: Clean Flask-based chat interface
+
+Prerequisites
+Before you begin, ensure you have the following:
+
+Python 3.10 or higher
+
+Conda package manager
+
+Pinecone API account (sign up here)
+
+Groq API account (sign up here)
+
+Installation
+1. Clone the Repository
+bash
+git clone <your-repository-url>
+cd End-to-end-Medical-Chatbot-Generative-AI
+2. Create Conda Environment
+bash
 conda create -n medibot python=3.10 -y
-```
-
-```bash
 conda activate medibot
-```
-
-
-### STEP 02- install the requirements
-```bash
+3. Install Dependencies
+bash
 pip install -r requirements.txt
-```
+4. Environment Configuration
+Create a .env file in the root directory with your API credentials:
 
+ini
+PINECONE_API_KEY="your_pinecone_api_key_here"
+GROQ_API_KEY="your_groq_api_key_here"
+Setting Up Pinecone
+Create a Pinecone account at pinecone.io
 
-### Create a `.env` file in the root directory and add your Pinecone & openai credentials as follows:
+Get your API key from the Pinecone console
 
-```ini
-PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-```
+Create an index named "medicalbot" with:
 
+Dimension: 384
 
-```bash
-# run the following command to store embeddings to pinecone
+Metric: cosine
+
+Cloud: AWS
+
+Region: us-east-1
+
+Preparing Your Data
+Create a Data/ directory in your project root
+
+Place your medical PDF files in the Data/ directory
+
+The application will process these files to create the knowledge base
+
+Running the Application
+1. Process Documents and Create Embeddings
+bash
 python store_index.py
-```
+This command will:
 
-```bash
-# Finally run the following command
+Load PDF files from the Data/ directory
+
+Split them into text chunks
+
+Generate embeddings using HuggingFace's all-MiniLM-L6-v2 model
+
+Store the embeddings in your Pinecone index
+
+2. Start the Chatbot Application
+bash
 python app.py
-```
+3. Access the Application
+Open your web browser and navigate to:
 
-Now,
-```bash
-open up localhost:
-```
+text
+http://localhost:8080
+Usage
+Type your medical question in the chat interface
 
+The system will:
 
-### Techstack Used:
+Search for relevant context in your PDF documents
 
-- Python
-- LangChain
-- Flask
-- GPT
-- Pinecone
+Generate a response using Groq's language models
 
+Provide a concise, medically-informed answer
 
-# AWS-CICD-Deployment-with-Github-Actions
+If technical issues occur, the system will provide appropriate fallback responses
 
-## 1. Login to AWS console.
+The application tries multiple Groq models in sequence for optimal performance:
 
-## 2. Create IAM user for deployment
+llama-3.1-8b-instant (primary)
 
-	#with specific access
+llama-3.1-70b-versatile (fallback)
 
-	1. EC2 access : It is virtual machine
+llama3-70b-8192 (secondary fallback)
 
-	2. ECR: Elastic Container registry to save your docker image in aws
-
-
-	#Description: About the deployment
-
-	1. Build docker image of the source code
-
-	2. Push your docker image to ECR
-
-	3. Launch Your EC2 
-
-	4. Pull Your image from ECR in EC2
-
-	5. Lauch your docker image in EC2
-
-	#Policy:
-
-	1. AmazonEC2ContainerRegistryFullAccess
-
-	2. AmazonEC2FullAccess
-
-	
-## 3. Create ECR repo to store/save docker image
-    - Save the URI: 970547337635.dkr.ecr.ap-south-1.amazonaws.com/medicalchatbot
-
-	
-## 4. Create EC2 machine (Ubuntu) 
-
-## 5. Open EC2 and Install docker in EC2 Machine:
-	
-	
-	#optinal
-
-	sudo apt-get update -y
-
-	sudo apt-get upgrade
-	
-	#required
-
-	curl -fsSL https://get.docker.com -o get-docker.sh
-
-	sudo sh get-docker.sh
-
-	sudo usermod -aG docker ubuntu
-
-	newgrp docker
-	
-# 6. Configure EC2 as self-hosted runner:
-    setting>actions>runner>new self hosted runner> choose os> then run command one by one
-
-
-# 7. Setup github secrets:
-
-   - AWS_ACCESS_KEY_ID
-   - AWS_SECRET_ACCESS_KEY
-   - AWS_DEFAULT_REGION
-   - ECR_REPO
-   - PINECONE_API_KEY
-   - OPENAI_API_KEY
-
-    
+llama3-8b-8192 (final fallback)
+# DCOchatbot

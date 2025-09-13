@@ -1,11 +1,15 @@
 from setuptools import find_packages, setup
 
 setup(
-    name = 'Generative AI Project',
-    version= '0.0.0',
-    author= 'Bappy Ahmed',
-    author_email= 'entbappy73@gmail.com',
+    name = 'Medical Chatbot',
+    version= '1.0.0',
+    author= 'Dhruvil Prajapati',
+    author_email= 'dhruvilprajapati1154b@gmail.com',
     packages= find_packages(),
-    install_requires = []
-
+    install_requires = [
+        'flask==2.3.3',
+        'python-dotenv==1.0.0',
+        'langchain-groq==0.1.1',
+        'groq==0.3.0'
+    ]
 )

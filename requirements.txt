@@ -7,5 +7,5 @@ langchain-community
 langchain-groq
 groq
 langchain-pinecone
-sentence-transformers
+sentence-transformers==2.2.2
 gunicorn

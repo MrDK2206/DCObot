@@ -8,3 +8,4 @@ langchain-groq
 groq
 langchain-pinecone
 sentence-transformers
+gunicorn
